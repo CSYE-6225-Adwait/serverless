@@ -35,10 +35,9 @@ functions.cloudEvent('helloPubSub', async (cloudEvent) => {
 
     const activationLink = `http://adwaitchangan.me:3000/v1/user/verify?token=${token}`;
 
-    const now = new Date();
-    const verificationSentAt = now.toISOString();
-    const verificationExpiryAt = new Date(now.getTime() + 2 * 60000).toISOString(); // 2 minutes after verificationSentAt
-
+    const verificationSentAt = new Date();
+    const verificationExpiryAt = new Date(verificationSentAt.getTime() + 2 * 60000);
+    
     connection.query('UPDATE Users SET verification_sent_at=?, verification_expiry_at=? WHERE username=?',
       [verificationSentAt, verificationExpiryAt, email],
       function (error, results, fields) {
