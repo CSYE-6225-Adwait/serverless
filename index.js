@@ -2,7 +2,7 @@ const formData = require('form-data');
 const Mailgun = require('mailgun.js');
 const mailgun = new Mailgun(formData);
 const functions = require('@google-cloud/functions-framework');
-const mg = mailgun.client({ username: 'api', key: "30b334475448b8389ba1f58b6890ea4f-f68a26c9-7c751faa" });
+const mg = mailgun.client({ username: 'api', key: process.env.MAILGUNKEY });
 
 const mysql = require('mysql');
 
@@ -33,7 +33,7 @@ functions.cloudEvent('helloPubSub', async (cloudEvent) => {
 
     const { firstName, email, token } = JSON.parse(name);
 
-    const activationLink = `http://adwaitchangan.me:3000/v1/user/verify?token=${token}`;
+    const activationLink = `https://adwaitchangan.me/v1/user/verify?token=${token}`;
 
     const verificationSentAt = new Date();
     const verificationExpiryAt = new Date(verificationSentAt.getTime() + 2 * 60000);
